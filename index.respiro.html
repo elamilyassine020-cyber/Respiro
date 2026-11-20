@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Respiro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1ecff;--card:#fff;--ink:#1e1633;--mut:#6b6086;--pri:#5b3df5;--lime:#c6f432;--pink:#ff6fb5;--sun:#ffd23f;--on-pri:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#181127;--card:#261c3d;--ink:#f3eeff;--mut:#b2a6cf;--pri:#8b73ff;--lime:#c6f432;--pink:#ff6fb5;--sun:#ffd23f}}
+:root[data-theme="dark"]{--bg:#181127;--card:#261c3d;--ink:#f3eeff;--mut:#b2a6cf;--pri:#8b73ff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2",ui-rounded,"Nunito",system-ui,sans-serif;font-size:17px;line-height:1.3;padding-bottom:96px}
+#app{max-width:480px;margin:0 auto;padding:16px}
+h1,h2,h3,p{margin:0}
+h1{font-size:30px;font-weight:800;line-height:1.05}
+h2{font-size:22px;font-weight:800}
+.mut{color:var(--mut)}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:5px 5px 0 var(--ink);padding:16px;margin:16px 0}
+button{font:inherit;font-weight:700;color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:10px 18px;background:var(--card);box-shadow:3px 3px 0 var(--ink);cursor:pointer;transition:transform .08s,box-shadow .08s}
+button:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+button:focus-visible{outline:3px solid var(--pri);outline-offset:3px}
+.big{width:100%;font-size:20px;padding:14px}
+.ok{background:var(--lime);color:#1e1633}.slip{background:var(--sun);color:#1e1633}.urge{background:var(--pink);color:#1e1633}.pri{background:var(--pri);color:var(--on-pri)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{padding:6px 14px;font-size:16px}.chip.on{background:var(--pri);color:var(--on-pri)}
+.hero{text-align:center;padding-top:8px}
+.blob{width:150px;height:150px;margin:8px auto 4px;background:var(--lime);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);border-radius:58% 42% 55% 45%/50% 55% 45% 50%;display:grid;place-items:center;font-size:72px;animation:wob 5s ease-in-out infinite}
+@keyframes wob{50%{border-radius:42% 58% 45% 55%/55% 45% 55% 45%;transform:rotate(3deg)}}
+.num{font-size:64px;font-weight:800;line-height:1}
+.stats{display:flex;justify-content:center;gap:10px;margin-top:10px}
+.stat{background:var(--card);border:3px solid var(--ink);border-radius:16px;padding:6px 12px;font-weight:700;font-size:15px}
+.tabs{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:3px solid var(--ink)}
+.tabs button{flex:1;max-width:150px;font-size:15px;padding:8px 6px}
+.tabs button.on{background:var(--pri);color:var(--on-pri)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.cal .h{text-align:center;font-size:13px;color:var(--mut)}
+.d{aspect-ratio:1;border:2px solid var(--ink);border-radius:12px;display:grid;place-items:center;font-size:14px;font-weight:700;padding:0;box-shadow:none;background:var(--card);line-height:1}
+.d.ok{background:var(--lime)}.d.slip{background:var(--sun)}.d.sel{outline:3px solid var(--pri);outline-offset:2px}.d.empty{border:0;background:none}
+.d.fut{opacity:.4}
+.plan{position:relative}
+.tag{position:absolute;top:-14px;right:14px;background:var(--pink);color:#1e1633;border:3px solid var(--ink);border-radius:999px;padding:0 12px;font-weight:800;font-size:14px}
+.price{font-size:36px;font-weight:800}
+ul{padding-left:0;list-style:none;margin:10px 0}
+li{padding:3px 0 3px 28px;position:relative}
+li::before{content:"✓";position:absolute;left:0;font-weight:800;color:var(--pri)}
+li.lock::before{content:"🔒"}
+.lockscr{position:fixed;inset:0;z-index:20;background:var(--pri);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px))}
+.lockscr button{color:#1e1633}
+.ring{width:190px;height:190px;border-radius:50%;background:var(--lime);border:4px solid #1e1633;display:grid;place-items:center;color:#1e1633;font-size:44px;font-weight:800;animation:br 8s ease-in-out infinite}
+@keyframes br{0%,100%{transform:scale(.8)}50%{transform:scale(1.1)}}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;z-index:30;max-width:90%;text-align:center}
+@media (prefers-reduced-motion:reduce){.blob,.ring{animation:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+var HOB={"Sport":["🏃",["Corsa leggera da 15 minuti","20 flessioni e stretching","Palleggia o fai due tiri"]],
+"Musica":["🎸",["Impara un giro di accordi nuovo","Crea una playlist per domani","Canta 3 canzoni a squarciagola"]],
+"Gaming":["🎮",["Una partita a un gioco da 15 minuti, poi stop","Sfida un amico online","Prova un puzzle game"]],
+"Disegno":["🎨",["Schizza l’oggetto che hai accanto","Doodle libero per 10 minuti","Ridisegna il tuo personaggio preferito"]],
+"Lettura":["📚",["Leggi 10 pagine","Leggi un articolo che ti incuriosisce","Scrivi una frase sul libro"]],
+"Cucina":["🍳",["Prepara uno snack sano","Prova una ricetta nuova","Cucina per qualcuno"]],
+"Film":["🎬",["Guarda un episodio fuori dal letto","Scegli un film da vedere nel weekend","Guarda un corto o un documentario"]],
+"Amici":["🍕",["Scrivi a un amico e organizza qualcosa","Chiama qualcuno che non senti da un po’","Esci a prendere un gelato"]]};
+var ALT=["Respira: 4 secondi dentro, 6 fuori","Cambia stanza","Bevi un bicchiere d’acqua","Esci a fare due passi","Scrivi a un amico"];
+var TRG=["Noia","Sera tardi","Stress","Telefono a letto"];
+var MIN=[5,10,15,20,30];
+function def(){return {hob:[],log:{},u:{d:"",n:0},demo:false,done:false}}
+var S;try{S=JSON.parse(localStorage.getItem("respiro"))||def()}catch(e){S=def()}
+function save(){try{localStorage.setItem("respiro",JSON.stringify(S))}catch(e){}}
+var tab="home",selDay=null,sel=[],timer=null,exitT=null;
+function p2(n){return n<10?"0"+n:""+n}
+function key(d){return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate())}
+function today(){return key(new Date())}
+function addD(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+function streak(){var d=new Date(),n=0;if(!(S.log[key(d)]&&S.log[key(d)].s==="ok"))d=addD(d,-1);
+while(S.log[key(d)]&&S.log[key(d)].s==="ok"){n++;d=addD(d,-1)}return n}
+function record(){var best=0,run=0;for(var i=364;i>=0;i--){var l=S.log[key(addD(new Date(),-i))];if(l&&l.s==="ok"){run++;if(run>best)best=run}else run=0}return best}
+function monthOk(){var m=today().slice(0,7),c=0;for(var k in S.log)if(k.indexOf(m)===0&&S.log[k].s==="ok")c++;return c}
+function activity(k){var h=S.hob.length?S.hob:Object.keys(HOB),s=0;for(var i=0;i<k.length;i++)s+=k.charCodeAt(i);
+var n=h[s%h.length];return {e:HOB[n][0],n:n,t:HOB[n][1][(s>>1)%3]}}
+function face(n){return n>=7?"🤩":n>=3?"😎":n>=1?"🙂":"😴"}
+function toast(t){var e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},2200)}
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function nextMin(){var n=S.u.d===today()?S.u.n:0;return MIN[Math.min(n,4)]}
+
+function render(){var a=document.getElementById("app"),h="";
+if(!S.done){h=onboard()}else{h=tab==="home"?home():tab==="cal"?cal():prem();h+=tabs()}
+a.innerHTML=h}
+function onboard(){var h="<div class='hero'><div class='blob'>🫧</div><h1>Ciao, io sono Respiro</h1><p class='mut'>Un check-in al giorno, zero giudizi. Scegli i tuoi hobby: riempiranno i momenti vuoti.</p></div><div class='card'><h2>Cosa ti piace fare?</h2><div class='chips'>";
+for(var n in HOB)h+="<button class='chip"+(sel.indexOf(n)>-1?" on":"")+"' onclick=\"pick('"+n+"')\">"+HOB[n][0]+" "+n+"</button>";
+return h+"</div></div><button class='big pri' onclick='start()'>Iniziamo!</button>"}
+function pick(n){var i=sel.indexOf(n);if(i>-1)sel.splice(i,1);else sel.push(n);render()}
+function start(){if(!sel.length){toast("Scegli almeno un hobby");return}S.hob=sel.slice();S.done=true;save();render()}
+function home(){var k=today(),l=S.log[k],s=streak(),act=activity(k),h="<div class='hero'><div class='blob'>"+face(s)+"</div><div class='num'>"+s+"</div><p class='mut'>"+(s===1?"giorno di fila":"giorni di fila")+"</p><div class='stats'><span class='stat'>🏆 Record "+record()+"</span><span class='stat'>📅 "+monthOk()+" nel mese</span></div></div>";
+h+="<div class='card'><h2>Com’è andata oggi?</h2><div class='row' style='margin-top:12px'><button class='ok' onclick=\"ci('ok')\">Ce l’ho fatta ✅</button><button class='slip' onclick=\"ci('slip')\">Ho ceduto 😅</button></div>";
+if(l){h+="<p style='margin-top:12px'>"+(l.s==="ok"?"Grande! Un giorno in più nel tuo conto. 🎉":"Una ricaduta non cancella i tuoi progressi. Domani si riparte. 💜")+"</p>";
+if(l.s==="slip"){h+="<p class='mut' style='margin-top:8px'>Cosa l’ha scatenata?</p><div class='chips' style='margin-top:6px'>";TRG.forEach(function(t){h+="<button class='chip"+(l.t===t?" on":"")+"' onclick=\"trg('"+t+"')\">"+t+"</button>"});h+="</div>"}}
+h+="</div><button class='big urge' onclick='urge()'>Ho voglia adesso 🆘</button><p class='mut' style='text-align:center;margin-top:6px'>Blocco di "+nextMin()+" minuti con un’alternativa pronta</p>";
+h+="<div class='card'><h3>Oggi fai questo "+act.e+"</h3><p>"+esc(act.t)+"</p></div>";
+return h}
+function ci(s){var k=today(),o=S.log[k];S.log[k]={s:s,t:o&&o.s===s?o.t:null};save();render()}
+function trg(t){S.log[today()].t=t;save();render()}
+function cal(){var now=new Date(),y=now.getFullYear(),m=now.getMonth(),first=new Date(y,m,1),off=(first.getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),tk=today();
+var mn=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"][m];
+var h="<h1>Calendario</h1><p class='mut'>"+mn+" "+y+"</p><div class='card'><div class='cal'>";
+["L","M","M","G","V","S","D"].forEach(function(x){h+="<div class='h'>"+x+"</div>"});
+for(var i=0;i<off;i++)h+="<div class='d empty'></div>";
+for(var d=1;d<=dim;d++){var k=y+"-"+p2(m+1)+"-"+p2(d),l=S.log[k],c="d"+(l?" "+l.s:"")+(k>tk?" fut":"")+((selDay||tk)===k?" sel":"");
+h+="<button class='"+c+"' onclick=\"sday('"+k+"')\">"+(l?(l.s==="ok"?"✅":"😅"):d)+"</button>"}
+var sk=selDay||tk,a=activity(sk);
+h+="</div></div><div class='card'><h3>"+(sk===tk?"Oggi":sk.split("-").reverse().join("/"))+" "+a.e+"</h3><p>"+esc(a.t)+"</p><p class='mut' style='margin-top:6px'>Scelto in base al tuo hobby: "+a.n+"</p></div>";
+h+="<div class='card'><h3>Cambia hobby</h3><div class='chips'>";
+for(var n in HOB)h+="<button class='chip"+(S.hob.indexOf(n)>-1?" on":"")+"' onclick=\"hob('"+n+"')\">"+HOB[n][0]+" "+n+"</button>";
+return h+"</div></div>"}
+function sday(k){selDay=k;render()}
+function hob(n){var i=S.hob.indexOf(n);if(i>-1){if(S.hob.length>1)S.hob.splice(i,1)}else S.hob.push(n);save();render()}
+function prem(){return "<h1>Premium</h1><p class='mut'>Il pulsante d’emergenza e il blocco restano sempre gratis.</p>"+
+"<div class='card'><h2>Gratis</h2><ul><li>Check-in e contatore</li><li>“Ho voglia adesso” con timer crescente</li><li>Calendario con 7 giorni di attività</li><li>Un promemoria al giorno</li></ul></div>"+
+"<div class='card plan'><h2>Base</h2><div class='price'>0,99 €<span class='mut' style='font-size:16px'> /mese</span></div><ul><li>Calendario di 30 giorni, attività illimitate</li><li>Statistiche su orari e trigger</li><li>Blocco con PIN o FaceID e icona nascosta</li><li>Temi e promemoria personalizzati</li></ul><button class='big' onclick=\"buy('Base')\">Scegli Base</button></div>"+
+"<div class='card plan'><span class='tag'>Il più completo</span><h2>Plus</h2><div class='price'>4,99 €<span class='mut' style='font-size:16px'> /mese</span></div><ul><li>Tutto il Base</li><li>Blocco di app scelte durante il timer</li><li>Percorsi guidati di 21 e 30 giorni</li><li>Backup cifrato e più dispositivi</li><li>Obiettivi e premi personali</li></ul><button class='big pri' onclick=\"buy('Plus')\">Prova 7 giorni gratis</button></div>"}
+function buy(p){toast("Prototipo: pagamenti non ancora attivi ("+p+")")}
+function tabs(){function b(i,e,t){return "<button class='"+(tab===i?"on":"")+"' onclick=\"go('"+i+"')\">"+e+" "+t+"</button>"}
+return "<div class='tabs'>"+b("home","🏠","Oggi")+b("cal","📅","Calendario")+b("prem","⭐","Premium")+"</div>"}
+function go(t){tab=t;render();window.scrollTo(0,0)}
+
+function urge(){var k=today();if(S.u.d!==k)S.u={d:k,n:0};var m=MIN[Math.min(S.u.n,4)];S.u.n++;save();
+var secs=S.demo?m*3:m*60,end=Date.now()+secs*1000,alt=ALT[Math.floor(Math.random()*ALT.length)],o=document.createElement("div");o.className="lockscr";o.id="lock";
+o.innerHTML="<h1>Respira. Passa.</h1><div class='ring' id='tm'></div><p style='font-size:20px'>"+alt+"</p><p id='nx' style='opacity:.85'>La prossima volta oggi: "+MIN[Math.min(S.u.n,4)]+" minuti</p><button id='ex' onclick='tryExit()'>Uscita di emergenza</button><button id='dm' style='font-size:13px;padding:4px 12px' onclick='demo()'>"+(S.demo?"Demo veloce: attiva":"Demo veloce: spenta")+"</button>";
+document.body.appendChild(o);
+function tick(){var r=Math.max(0,Math.round((end-Date.now())/1000)),t=document.getElementById("tm");if(!t)return;
+if(r<=0){clearInterval(timer);t.textContent="🎉";o.querySelector("h1").textContent="Ce l’hai fatta!";var e=document.getElementById("ex");e.textContent="Chiudi";e.onclick=closeLock;return}
+t.textContent=p2(Math.floor(r/60))+":"+p2(r%60)}
+tick();clearInterval(timer);timer=setInterval(tick,500)}
+function demo(){S.demo=!S.demo;save();document.getElementById("dm").textContent=S.demo?"Demo veloce: attiva (vale dal prossimo blocco)":"Demo veloce: spenta"}
+function tryExit(){var e=document.getElementById("ex"),n=10;if(exitT)return;exitT=setInterval(function(){n--;if(n<=0){clearInterval(exitT);exitT=null;closeLock();return}e.textContent="Aspetta "+n+" secondi…"},1000);e.textContent="Aspetta 10 secondi…";
+var c=document.createElement("button");c.id="cx";c.textContent="Resto qui";c.onclick=function(){clearInterval(exitT);exitT=null;e.textContent="Uscita di emergenza";c.remove()};e.after(c)}
+function closeLock(){clearInterval(timer);clearInterval(exitT);exitT=null;var o=document.getElementById("lock");if(o)o.remove();render()}
+render();
+</script>
+</body>
+</html>
